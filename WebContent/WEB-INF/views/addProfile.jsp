@@ -22,40 +22,61 @@ description: contains all the validations required for every field -->
 <!-- page specific plugin styles -->
 <link rel="stylesheet" href="assets/css/jquery-ui.custom.min.css" />
 <link rel="stylesheet" href="assets/css/fullcalendar.min.css" />
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.1/angular.min.js"></script>
+
+<!-- for autocomplete -->
+<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+<script src="assets/autocomplete/jquery.autocomplete.min.js"></script>
+<link href="assets/autocomplete/main.css" rel="stylesheet">
+
+<script>
+	$(document)
+			.ready(
+					function() {
+
+						$('#dynamicsearchcompany')
+								.autocomplete(
+										{
+											serviceUrl : 'looseSearch2',
+											paramName : "CHARS",
+											delimiter : ",",
+											transformResult : function(response) {
+
+												return {
+													//must convert json to javascript object before process
+													suggestions : $
+															.map(
+																	$
+																			.parseJSON(response),
+																	function(
+																			company) {
+
+																		return {
+																			value : company.company_name,
+																			data : company.company_id
+																		};
+																	})
+
+												};
+
+											}
+
+										});
+
+					});
+</script>
 
 </head>
-<body 	onload="noBack();"
-    onpageshow="if (event.persisted) noBack();" onunload="">
+<body>
 	<jsp:directive.include file="Header.jsp" />
 
 	<div class="main-content">
 				<div class="main-content-inner">
 					<div class="breadcrumbs" id="breadcrumbs">
-						<script type="text/javascript">
-							try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
-						</script>
 
-						<!-- <ul class="breadcrumb">
-							<li>
-								<i class="ace-icon fa fa-home home-icon"></i>
-								<a href="#">Home</a>
-							</li>
-
-							<li>
-								<a href="#">More Pages</a>
-							</li>
-							<li class="active">User Profile</li>
-						</ul>/.breadcrumb -->
-
-						<div class="nav-search" id="nav-search">
-							<form class="form-search">
-								<span class="input-icon">
-									<input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="on" />
-									<i class="ace-icon fa fa-search nav-search-icon"></i>
-								</span>
-							</form>
-						</div><!-- /.nav-search -->
-					</div>
+				<jsp:directive.include file="searchheader.jsp" />
+			</div>
 
 					<div class="page-content">
 						
@@ -69,8 +90,9 @@ description: contains all the validations required for every field -->
 					</h1>
 					
 					<c:if test="${success==1}">
-	<p color="blue"><h2>Profile added successfully!!</h2></p>
-	</c:if>
+						<p color="blue"><h2>Profile added successfully!!</h2></p>
+
+					</c:if>
 
 
 				</div>
@@ -108,7 +130,7 @@ description: contains all the validations required for every field -->
 															<label class="col-sm-1 control-label no-padding-right"
 																for="name">Company Name</label>
 
-															<div class="col-sm-3">
+															<div class="col-sm-3"><!-- <input path="company" id="dynamicsearchcompany" value="" /> -->
 																<div class="clearfix">
 																	<select name="company_id" class="chosen-select">
 																	<option ></option>
@@ -124,7 +146,7 @@ description: contains all the validations required for every field -->
 																	</select>
 																</div>
 
-															</div>
+															<!-- </div> -->
 														</div>
 														
 														<div class="form-group">
@@ -498,53 +520,7 @@ description: contains all the validations required for every field -->
 		
 	
 	
-		<!-- /.main-container -->
-
-
-	<!--[if !IE]> -->
-	<script src="assets/js/jquery.2.1.1.min.js"></script>
-
-
-
-
-	<!-- basic scripts -->
-
-	<!--[if !IE]> -->
-	<script src="assets/js/jquery.2.1.1.min.js"></script>
-
-	<!-- <![endif]-->
-
-	<!--[if IE]>
-<script src="assets/js/jquery.1.11.1.min.js"></script>
-<![endif]-->
-
-	<!--[if !IE]> -->
-	<script type="text/javascript">
-		window.jQuery
-				|| document.write("<script src='assets/js/jquery.min.js'>"
-						+ "<"+"/script>");
-	</script>
-
-	<!-- <![endif]-->
-
-	<!--[if IE]>
-<script type="text/javascript">
- window.jQuery || document.write("<script src='assets/js/jquery1x.min.js'>"+"<"+"/script>");
-</script>
-<![endif]-->
-	<script type="text/javascript">
-		if ('ontouchstart' in document.documentElement)
-			document
-					.write("<script src='assets/js/jquery.mobile.custom.min.js'>"
-							+ "<"+"/script>");
-	</script>
-	<script src="assets/js/bootstrap.min.js"></script>
-
-	<!-- page specific plugin scripts -->
-
-	<!--[if lte IE 8]>
-		  <script src="assets/js/excanvas.min.js"></script>
-		<![endif]-->
+		
 	<script src="assets/js/jquery-ui.custom.min.js"></script>
 	<script src="assets/js/jquery.ui.touch-punch.min.js"></script>
 	<script src="assets/js/chosen.jquery.min.js"></script>
